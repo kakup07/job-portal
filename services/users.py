@@ -3,15 +3,8 @@ import bcrypt
 import os
 from werkzeug.utils import secure_filename
 from flask import current_app
+from werkzeug.security import generate_password_hash
 
-def hash_password(password):
-    # Passwords must be encoded to bytes
-    password_bytes = password.encode('utf-8')
-    # Generate a salt and hash the password
-    # gensalt() generates a new random salt each time
-    hashed_bytes = bcrypt.hashpw(password_bytes, bcrypt.gensalt())
-    # Decode the result back to a string for storage in a database
-    return hashed_bytes.decode('utf-8')
 
 def validate_password(password):
   # can add more validations
@@ -32,7 +25,7 @@ def register_user(user):
     elif(user['user_type'] not in ('job_seeker', 'employer')):
       retval['data'] = 'Incorrect user Type'  
     else:
-      user['password'] = hash_password(user['password'])
+      user['password'] = generate_password_hash(user['password'])
       add_user(user)
       retval['status'] = True
   except Exception as e:

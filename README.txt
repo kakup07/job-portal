@@ -13,40 +13,6 @@ Admin
 
 The system allows job posting, job applications, resume uploads, application tracking, admin management, and a fully responsive mobile-friendly UI.
 
-PROJECT STRUCTURE
-
-project/
-│
-├── app.py → Flask app entry point
-├── db.py → SQLite connection + helper functions
-├── schema.sql → Database schema (tables, triggers, indexes)
-├── init_db.py → Script to initialize database
-├── requirements.txt → Python dependencies
-├── README.txt → This file
-│
-├── routes/ → Blueprints for different roles
-│ ├── users.py
-│ ├── employers.py
-│ ├── job_seekers.py
-│ └── admin.py
-│
-├── services/ → Business logic
-├── repository/ → Database layer (SQL queries)
-│
-├── templates/ → Jinja2 HTML templates
-│ ├── layout.html
-│ ├── login.html
-│ ├── register.html
-│ ├── employer_home.html
-│ ├── jb_home.html
-│ ├── applied_jobs.html
-│ ├── job_detail.html
-│ └── error.html
-│
-└── static/
-├── style.css → Custom styles (sidebar + responsive)
-└── uploads/ → Resume upload folder (contains .gitkeep)
-
 PREREQUISITES
 
 Make sure you have:
@@ -71,7 +37,7 @@ Install dependencies:
 
 Initialize the database:
 
-  python3 init_db.py
+  flask init_db.py
 
 Run the flask server:
 

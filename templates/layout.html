@@ -1,35 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>{% block title %}Job Portal{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel='stylesheet' href='{{ url_for('static', filename='style.css') }}'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css' rel='stylesheet'>
   </head>
 
-  <body class="d-flex flex-column min-vh-100">
+  <body class='d-flex flex-column min-vh-100'>
 
     <!-- HEADER -->
-    <header class="navbar navbar-dark bg-dark sticky-top px-3" style="height: 56px;">
-      <div class="d-flex align-items-center w-100">
+    <header class='navbar navbar-dark bg-dark sticky-top px-3' style='height: 56px;'>
+      <div class='d-flex align-items-center w-100'>
 
         <!-- MOBILE MENU BUTTON -->
-        <button class="navbar-toggler d-md-none me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
-          <span class="navbar-toggler-icon"></span>
+        <button class='navbar-toggler d-md-none me-3' type='button' data-bs-toggle='offcanvas' data-bs-target='#mobileSidebar'>
+          <span class='navbar-toggler-icon'></span>
         </button>
 
         <!-- LOGO -->
-        <span class="navbar-brand mb-0 h1">Job Portal</span>
+        <span class='navbar-brand mb-0 h1'>Job Portal</span>
 
         <!-- RIGHT USER SECTION -->
-        <div class="ms-auto">
+        <div class='ms-auto'>
           {% if current_user %}
-            <span class="text-white me-3 d-none d-sm-inline">Hello, {{ current_user }}</span>
-            <a href="{{ url_for('main.edit_profile') }}" class="btn btn-outline-light btn-sm"><i class="bi bi-gear"></i></a>
-            <a href="{{ url_for('main.logout') }}" class="btn btn-outline-light btn-sm">Logout</a>
+            <span class='text-white me-3 d-none d-sm-inline'>Hello, {{ current_user }}</span>
+            <a href='{{ url_for("users.edit_profile") }}' class='btn btn-outline-light btn-sm'><i class='bi bi-gear'></i></a>
+            <a href='{{ url_for("users.logout") }}' class='btn btn-outline-light btn-sm'>Logout</a>
           {% endif %}
         </div>
 
@@ -37,14 +37,14 @@
     </header>
 
     <!-- MOBILE SIDEBAR (OFFCANVAS) -->
-    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="mobileSidebar">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Menu</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    <div class='offcanvas offcanvas-start bg-dark text-white' tabindex='-1' id='mobileSidebar'>
+      <div class='offcanvas-header'>
+        <h5 class='offcanvas-title'>Menu</h5>
+        <button type='button' class='btn-close btn-close-white' data-bs-dismiss='offcanvas'></button>
       </div>
-      <div class="offcanvas-body">
-        <nav class="nav flex-column">
-          <a class="nav-link text-white" href="/"><i class="bi bi-house me-2"></i>Home</a>
+      <div class='offcanvas-body'>
+        <nav class='nav flex-column'>
+          <a class='nav-link text-white' href='/'><i class='bi bi-house me-2'></i>Home</a>
           {{ self.nav_links() }}
 
 
@@ -53,14 +53,14 @@
     </div>
 
     <!-- DESKTOP LAYOUT -->
-    <div class="d-flex flex-grow-1 flex-row">
+    <div class='d-flex flex-grow-1 flex-row'>
 
       <!-- DESKTOP SIDEBAR (hidden on mobile) -->
-      <aside class="sidebar bg-dark text-white d-none d-md-block">
-        <nav class="nav flex-column pt-3">
-          <a class="nav-link text-white d-flex align-items-center" href="/">
-            <i class="bi bi-house fs-4"></i>
-            <span class="label ms-3">Home</span>
+      <aside class='sidebar bg-dark text-white d-none d-md-block'>
+        <nav class='nav flex-column pt-3'>
+          <a class='nav-link text-white d-flex align-items-center' href='/'>
+            <i class='bi bi-house fs-4'></i>
+            <span class='label ms-3'>Home</span>
           </a>
 
           {% block nav_links %}
@@ -68,13 +68,13 @@
       </aside>
 
       <!-- MAIN CONTENT -->
-      <main class="flex-grow-1 p-3">
+      <main class='flex-grow-1 p-3'>
 
         <!-- FLASH MESSAGES -->
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-          <div class="alert alert-warning">
-            <ul class="mb-0">
+          <div class='alert alert-warning'>
+            <ul class='mb-0'>
               {% for msg in messages %}
                 <li>{{ msg }}</li>
               {% endfor %}
@@ -90,10 +90,10 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <footer class='bg-dark text-white text-center py-3 mt-auto'>
       <small>© 2025 Job Portal</small>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'></script>
   </body>
 </html>

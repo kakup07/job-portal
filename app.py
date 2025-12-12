@@ -1,4 +1,4 @@
-from flask import Flask, session, send_from_directory
+from flask import Flask, session, send_from_directory, g
 from routes import user_bp, main_bp, employer_bp, job_bp, js_bp, admin_bp
 from repository import get_user_name
 from db import init_db
@@ -37,6 +37,13 @@ def uploaded_files(filename):
 def init_db_command():
   init_db()
   print('Initialized the database.')
+
+def close_db(e=None):
+  db = getattr(g, "_db", None)
+  if db is not None:
+    db.close()
+
+app.teardown_appcontext(close_db)
 
 if __name__ == "__main__":
     app.run(debug=True)

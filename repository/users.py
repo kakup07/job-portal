@@ -22,10 +22,9 @@ def get_user_role(user_id):
   role = query_db(
     'select user_type from users where id = ?', 
     (user_id,),
-    True
+    one=True
   )
   return role['user_type']
-
 def get_user_name(user_id):
   name = query_db(
     'select name from users where id = ?', 
