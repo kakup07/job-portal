@@ -48,3 +48,53 @@ def get_user_profile(user_id):
     (user_id,),
     True
   )
+
+def update_user(user_id, name, email, password, company_name, resume):
+  fields = []
+  values = []
+
+  fields.append("name = ?")
+  values.append(name)
+
+  fields.append("email = ?")
+  values.append(email)
+
+  if password:
+      fields.append("password = ?")
+      values.append(password)
+
+  if company_name is not None:
+      fields.append("company_name = ?")
+      values.append(company_name)
+
+  if resume:
+      fields.append("file_path = ?")
+      values.append(resume)
+
+  values.append(user_id)
+  db = get_db()
+  db.execute(
+    f"UPDATE users SET {', '.join(fields)} WHERE id = ?",
+    tuple(values),
+  )
+  db.commit()
+
+def get_user_by_id(user_id):
+  return query_db(
+    '''
+    select 
+        id,
+        name,
+        email,
+        user_type,
+        account_status,
+        file_name,
+        file_path,
+        company_name,
+        created_at
+    from users
+    where id = ?
+    ''',
+    (user_id,),
+    one=True
+  )

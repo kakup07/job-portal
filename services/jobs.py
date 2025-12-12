@@ -1,4 +1,4 @@
-from repository import create_job, get_job_details_by_id, create_response
+from repository import create_job, get_job_details, get_job_responses, create_response
 import json
 
 def add_job(job):
@@ -15,11 +15,17 @@ def add_job(job):
     retval['data'] = 'Failure'
   return retval
 
-def get_job_details(job_id, user_id):
-  job_details = get_job_details_by_id(job_id, user_id)
-  responses = json.loads(job_details['responses'])
-  responses = [] if responses is None else responses
-  return {'job': job_details, 'responses': responses}
+def get_full_job_data(job_id, employer_id):
+  job = get_job_details(job_id, employer_id)
+  if not job:
+    return None
+
+  responses = get_job_responses(job_id)
+  return {
+    'job': job,
+    'responses': responses
+  }
+
 
 def apply_job(job):
   retval = {'status': False, 'data': ''}

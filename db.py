@@ -17,7 +17,6 @@ def init_db():
   db.commit()
 
 def query_db(query, args = (), one = False):
-  print('111', query, args)
   cur = get_db().execute(query, args)
   rv = cur.fetchall()
   cur.close()

@@ -34,7 +34,7 @@ CREATE TABLE responses (
   created_by INTEGER NOT NULL,
   job INTEGER NOT NULL,
   cover_letter TEXT NOT NULL,
-  status TEXT CHECK (status IN ('applied', 'accepted', 'rejected')),
+  status TEXT CHECK (status IN ('applied', 'accepted', 'rejected')) DEFAULT 'applied',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   last_modified TEXT,
   FOREIGN KEY (created_by) REFERENCES users (id),

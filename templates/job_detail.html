@@ -41,6 +41,7 @@
                     <th>Status</th>
                     <th>Resume</th>
                     <th>Cover Letter</th>
+                    <ht>Action</ht>
                 </tr>
             </thead>
 
@@ -53,8 +54,8 @@
 
                     <td>
                         {% if r['file_path'] %}
-                          <a href='{{ url_for('static', filename=r['file_path']) }}' target='_blank'>
-                            {{ r['file_name'] }}
+                          <a href='{{ url_for("uploaded_files", filename=r["file_path"]) }}' target='_blank'>
+                            {{ r['file_path'] }}
                           </a>
                         {% else %}
                           <span class='text-muted'>No file</span>
@@ -62,9 +63,29 @@
                     </td>
 
                     <td style='max-width: 300px;'>
-                        <div class='text-truncate' title='{{ r['cover_letter'] }}'>
+                        <div class='text-truncate' title='{{ r["cover_letter"] }}'>
                             {{ r['cover_letter'] }}
                         </div>
+                    </td>
+                    <td>
+                      {% if r['status'] == 'applied' %}
+                        <a href="{{ url_for('employers.accept_response', job_id=job['id'], response_id=r['id']) }}"
+                          class="btn btn-sm btn-success me-2">
+                            Accept
+                        </a>
+
+                        <a href="{{ url_for('employers.reject_response', job_id=job['id'], response_id=r['id']) }}"
+                          class="btn btn-sm btn-danger">
+                            Reject
+                        </a>
+
+                      {% elif r['status'] == 'accepted' %}
+                        <span class="badge bg-success">Accepted</span>
+
+                      {% elif r['status'] == 'rejected' %}
+                        <span class="badge bg-danger">Rejected</span>
+
+                      {% endif %}
                     </td>
                 </tr>
             {% endfor %}

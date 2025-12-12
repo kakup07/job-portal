@@ -28,6 +28,44 @@ def create_job(job):
             )
   db.commit()
 
+def get_job_details(job_id, employer_id):
+  return query_db(
+    '''
+    select 
+        j.id,
+        j.title,
+        j.description,
+        j.status,
+        datetime(j.created_at, '+5 hours', '+30 minutes') as created_at
+    from jobs j
+    join users u on u.id = j.created_by
+    where j.id = ? and u.id = ?
+    ''',
+    (job_id, employer_id),
+    one=True
+  )
+
+def get_job_responses(job_id):
+  return query_db(
+    '''
+    select
+        r.id,
+        r.cover_letter,
+        r.status,
+        datetime(r.created_at, '+5 hours', '+30 minutes') as created_at,
+        u.name,
+        u.email,
+        u.file_name,
+        u.file_path
+    from responses r
+    join users u on u.id = r.created_by
+    where r.job = ?
+    order by r.created_at desc
+    ''',
+    (job_id,)
+  )
+
+
 def get_job_details_by_id(id, user_id):
   job = query_db(
     '''
@@ -60,26 +98,32 @@ def get_job_details_by_id(id, user_id):
   )
   return job
 
-def get_active_jobs():
+
+def get_active_jobs(user_id):
   return query_db(
     '''
-      SELECT 
-        j.id, 
-        j.title, 
-        datetime(j.created_at, '+5 hours', '+30 minutes') as created_at, 
-        u.name as employer_name, 
-        u.company_name as company_name
-      from 
-        jobs 
-        j inner join users u on u.id = j.created_by 
-      where 
-        j.status = 'active' 
-      order 
-        by j.created_at desc
+    select
+      j.id,
+      j.title,
+      datetime(j.created_at, '+5 hours', '+30 minutes') AS created_at,
+      u.name AS employer_name,
+      u.company_name AS company_name
+    from jobs j
+    inner join users u ON u.id = j.created_by
+    where 
+      j.status = 'active'
+      AND NOT EXISTS (
+        select 1 
+        from responses r
+        where r.job = j.id
+          AND r.created_by = ?
+      )
+    order by j.created_at DESC
     ''',
-    (),
+    (user_id,),
     False
   )
+
 
 def get_job_by_id(job_id):
   return query_db(
@@ -93,21 +137,20 @@ def get_job_by_id(job_id):
 def get_applied_jobs(job):
   return query_db(
     '''
-      select 
-        j.title, 
-        j.description, 
-        u.company_name, 
-        u.name, 
-        j.status job_status,
-        r.status response_status,
-        r.cover_letter
-      from 
-        jobs j 
-        inner join users u on u.id = j.created_by
-        inner join responses r on r.job = j.id
-      where
-        u.id = ? and 
-        j.status = ? 
+    select 
+      j.id AS job_id,
+      j.title,
+      j.description,
+      u.company_name,
+      u.name AS employer_name,
+      j.status AS job_status,
+      r.status AS response_status,
+      r.cover_letter,
+      datetime(r.created_at, '+5 hours', '+30 minutes') AS response_created_at
+    from jobs j
+    inner join responses r ON r.job = j.id
+    inner join users u ON u.id = j.created_by
+    where r.created_by = ? and r.status = ?
     ''',
     (job['user_id'], job['job_status']),
     False

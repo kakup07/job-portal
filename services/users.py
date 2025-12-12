@@ -1,5 +1,8 @@
-from repository import add_user, validate_and_get_user, validate_email, get_user_profile
+from repository import add_user, validate_and_get_user, validate_email, get_user_profile, update_user
 import bcrypt
+import os
+from werkzeug.utils import secure_filename
+from flask import current_app
 
 def hash_password(password):
     # Passwords must be encoded to bytes
@@ -77,3 +80,21 @@ def verify_user_profile(user):
         retval['status'] = False
         retval['msg'] = 'Please update resume in profile'
   return retval
+
+def update_user_profile(user_id, name, email, password, company_name, resume):
+  # hash password if provided
+  if password.strip():
+    password = hash_password(password)
+  else:
+    password = None  # means "don’t change"
+
+  # save resume if provided
+  resume_file_path = None
+  if resume and resume.filename:
+    filename = secure_filename(resume.filename)
+    save_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    resume.save(save_path)
+    resume_file_path = filename
+  update_user(
+    user_id, name, email, password, company_name, resume_file_path
+  )

@@ -1,0 +1,88 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center mt-4">
+  <div class="card shadow-sm p-4" style="width: 520px;">
+
+    <h3 class="mb-3 text-center">Edit Profile</h3>
+
+    <!-- Profile status -->
+    <div class="alert alert-info py-2 mb-4 text-center">
+      Account Status:
+      {% if user['account_status'] == 'active' %}
+        <strong class="text-success">Active</strong>
+      {% else %}
+        <strong class="text-danger">Inactive</strong>
+      {% endif %}
+    </div>
+
+    <form action="{{ url_for('main.edit_profile') }}"
+          method="POST"
+          enctype="multipart/form-data">
+
+      <!-- NAME -->
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text"
+               class="form-control"
+               name="name"
+               value="{{ user['name'] }}"
+               required>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email"
+               class="form-control"
+               name="email"
+               value="{{ user['email'] }}"
+               required>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="mb-3">
+        <label class="form-label">New Password</label>
+        <input type="password"
+               class="form-control"
+               name="password"
+               placeholder="Leave blank to keep current password">
+      </div>
+
+      <!-- EMPLOYER → COMPANY NAME -->
+      {% if user['user_type'] == 'employer' %}
+      <div class="mb-3">
+        <label class="form-label">Company Name</label>
+        <input type="text"
+               class="form-control"
+               name="company_name"
+               value="{{ user.get('company_name', '') }}">
+      </div>
+      {% endif %}
+
+      <!-- JOB SEEKER → RESUME UPLOAD -->
+      {% if user['user_type'] == 'job_seeker' %}
+      <div class="mb-3">
+        <label class="form-label">Upload Resume (PDF)</label>
+        <input type="file" class="form-control" name="resume">
+
+        {% if user.get('file_path') %}
+        <div class="mt-2">
+          <small>Current Resume:</small><br>
+          <a href="{{ url_for('uploaded_files', filename=user['file_path']) }}" target="_blank">
+            View Resume
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <button type="submit" class="btn btn-success w-100 mt-3">Save Changes</button>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

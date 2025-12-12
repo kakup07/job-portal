@@ -3,7 +3,7 @@
 {% block title %}Available Jobs{% endblock %}
 
 {% block nav_links %}
-    <a class="nav-link text-white d-flex align-items-center" href="/seeker/applied">
+    <a class="nav-link text-white d-flex align-items-center" href="/job_seekers/applications">
         <i class="bi bi-check2-square fs-4"></i>
         <span class="label ms-3">My Applications</span>
     </a>
@@ -16,22 +16,17 @@
 
     <!-- FILTER BUTTONS -->
     <div class="btn-group mb-4">
-        <a href="/seeker/applied"
-           class="btn btn-sm {{ 'btn-secondary' if not current_filter else 'btn-outline-secondary' }}">
-           All
-        </a>
-
-        <a href="/seeker/applied?status=applied"
+        <a href="/job_seekers/applications?status=applied"
            class="btn btn-sm {{ 'btn-primary' if current_filter == 'applied' else 'btn-outline-primary' }}">
            Applied
         </a>
 
-        <a href="/seeker/applied?status=accepted"
+        <a href="/job_seekers/applications?status=accepted"
            class="btn btn-sm {{ 'btn-success' if current_filter == 'accepted' else 'btn-outline-success' }}">
            Accepted
         </a>
 
-        <a href="/seeker/applied?status=rejected"
+        <a href="/job_seekers/applications?status=rejected"
            class="btn btn-sm {{ 'btn-danger' if current_filter == 'rejected' else 'btn-outline-danger' }}">
            Rejected
         </a>
