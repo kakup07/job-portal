@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+
+{% block title %}Job Details{% endblock %}
+
+{% block nav_links %}
+    <a class='nav-link text-white d-flex align-items-center' href='/jobs/new'>
+        <i class='bi bi-plus-square fs-4'></i>
+        <span class='label ms-3'>Add New Job</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+
+    <!-- JOB DETAILS -->
+    <div class='card mb-4'>
+        <div class='card-body'>
+            <h2 class='card-title'>{{ job['title'] }}</h2>
+
+            <p class='text-muted mb-1'>
+                Status: <span class='fw-bold'>{{ job['status'] }}</span>
+            </p>
+
+            <p class='text-muted mb-3'>
+                Created: {{ job['created_at'] }}
+            </p>
+
+            <p class='card-text'>{{ job['description'] }}</p>
+        </div>
+    </div>
+
+    <!-- RESPONSES -->
+    <h4 class='mb-3'>Applicants ({{ responses | length }})</h4>
+
+    {% if responses %}
+        <table class='table table-striped'>
+            <thead>
+                <tr>
+                    <th>Applicant</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Resume</th>
+                    <th>Cover Letter</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for r in responses %}
+                <tr>
+                    <td>{{ r['name'] }}</td>
+                    <td>{{ r['email'] }}</td>
+                    <td>{{ r['status'] }}</td>
+
+                    <td>
+                        {% if r['file_path'] %}
+                          <a href='{{ url_for('static', filename=r['file_path']) }}' target='_blank'>
+                            {{ r['file_name'] }}
+                          </a>
+                        {% else %}
+                          <span class='text-muted'>No file</span>
+                        {% endif %}
+                    </td>
+
+                    <td style='max-width: 300px;'>
+                        <div class='text-truncate' title='{{ r['cover_letter'] }}'>
+                            {{ r['cover_letter'] }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p class='text-muted'>No applicants have applied for this job yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

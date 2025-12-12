@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block nav_links %}
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/dashboard'>
+        <i class='bi bi-speedometer2 fs-4'></i>
+        <span class='label ms-3'>Dashboard</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/jobs'>
+        <i class='bi bi-briefcase fs-4'></i>
+        <span class='label ms-3'>Manage Jobs</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/employers'>
+        <i class='bi bi-people fs-4'></i>
+        <span class='label ms-3'>Manage Employers</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/jobseekers'>
+        <i class='bi bi-person-badge fs-4'></i>
+        <span class='label ms-3'>Manage Jobseekers</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+
+    <h2 class='mb-4'>Admin Dashboard</h2>
+
+    <!-- FILTER BUTTONS -->
+    <div class='btn-group mb-4'>
+        <a href='/admin/dashboard?range=daily'
+           class='btn btn-sm {{ "btn-primary" if current_range == "daily" else "btn-outline-primary" }}'>
+           Daily
+        </a>
+        <a href='/admin/dashboard?range=weekly'
+           class='btn btn-sm {{ "btn-primary" if current_range == "weekly" else "btn-outline-primary" }}'>
+           Weekly
+        </a>
+        <a href='/admin/dashboard?range=monthly'
+           class='btn btn-sm {{ "btn-primary" if current_range == "monthly" else "btn-outline-primary" }}'>
+           Monthly
+        </a>
+        <a href='/admin/dashboard?range=yearly'
+           class='btn btn-sm {{ "btn-primary" if current_range == "yearly" else "btn-outline-primary" }}'>
+           Yearly
+        </a>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class='row mb-4'>
+
+        <div class='col-md-3 mb-3'>
+            <div class='card shadow-sm text-center p-3'>
+                <h5>Total Jobs</h5>
+                <h3>{{ stats.total_jobs }}</h3>
+            </div>
+        </div>
+
+        <div class='col-md-3 mb-3'>
+            <div class='card shadow-sm text-center p-3'>
+                <h5>Total Employers</h5>
+                <h3>{{ stats.total_employers }}</h3>
+            </div>
+        </div>
+
+        <div class='col-md-3 mb-3'>
+            <div class='card shadow-sm text-center p-3'>
+                <h5>Total Jobseekers</h5>
+                <h3>{{ stats.total_jobseekers }}</h3>
+            </div>
+        </div>
+
+        <div class='col-md-3 mb-3'>
+            <div class='card shadow-sm text-center p-3'>
+                <h5>Total Applications</h5>
+                <h3>{{ stats.total_responses }}</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

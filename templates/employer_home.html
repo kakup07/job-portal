@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block nav_links %}
+  <a class="nav-link text-white d-flex align-items-center" href="/jobs/new">
+      <i class="bi bi-plus-square fs-4"></i>
+      <span class="label ms-3">Add New Job</span>
+  </a>
+{% endblock%}
+
+{% block content %}
+      <!-- FILTER BUTTONS -->
+  <div class="btn-group mb-3">
+      <a href="/employers/jobs"
+          class="btn btn-sm {{ 'btn-secondary' if not current_filter else 'btn-outline-secondary' }}">
+          All
+      </a>
+
+      <a href="/employers/jobs?status=active"
+          class="btn btn-sm {{ 'btn-success' if current_filter == 'active' else 'btn-outline-success' }}">
+          Active
+      </a>
+
+      <a href="/employers/jobs?status=inactive"
+          class="btn btn-sm {{ 'btn-danger' if current_filter == 'inactive' else 'btn-outline-danger' }}">
+          Inactive
+      </a>
+  </div>
+  {% if jobs %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Status</th>
+                <th>Applicants</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job['title'] }}</td>
+                <td>{{ job['status'] }}</td>
+                <td>{{ job['response_count'] }}</td>
+                <td>{{ job['created_at'] }}</td>
+                <td>
+                    <a href="/employers/jobs/{{ job['id'] }}" class="btn btn-primary btn-sm">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+    <p class="text-muted">You haven’t posted any jobs yet. Use the sidebar to add a new job.</p>
+  {% endif %}
+{% endblock %}

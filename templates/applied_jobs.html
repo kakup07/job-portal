@@ -1,0 +1,97 @@
+{% extends 'layout.html' %}
+
+{% block title %}Available Jobs{% endblock %}
+
+{% block nav_links %}
+    <a class="nav-link text-white d-flex align-items-center" href="/seeker/applied">
+        <i class="bi bi-check2-square fs-4"></i>
+        <span class="label ms-3">My Applications</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h2 class="mb-4">My Applications</h2>
+
+    <!-- FILTER BUTTONS -->
+    <div class="btn-group mb-4">
+        <a href="/seeker/applied"
+           class="btn btn-sm {{ 'btn-secondary' if not current_filter else 'btn-outline-secondary' }}">
+           All
+        </a>
+
+        <a href="/seeker/applied?status=applied"
+           class="btn btn-sm {{ 'btn-primary' if current_filter == 'applied' else 'btn-outline-primary' }}">
+           Applied
+        </a>
+
+        <a href="/seeker/applied?status=accepted"
+           class="btn btn-sm {{ 'btn-success' if current_filter == 'accepted' else 'btn-outline-success' }}">
+           Accepted
+        </a>
+
+        <a href="/seeker/applied?status=rejected"
+           class="btn btn-sm {{ 'btn-danger' if current_filter == 'rejected' else 'btn-outline-danger' }}">
+           Rejected
+        </a>
+    </div>
+    {% if jobs %}
+        <div class="list-group">
+            {% for job in jobs %}
+                <div class="list-group-item mb-3">
+
+                    <!-- JOB TITLE -->
+                    <h4>{{ job['title'] }}</h4>
+
+                    <!-- COMPANY NAME -->
+                    <p class="text-primary fw-semibold">{{ job['company_name'] }}</p>
+
+                    <!-- JOB DESCRIPTION -->
+                    <p class="text-muted" style="max-width: 700px;">
+                        {{ job['description'] | truncate(200, True) }}
+                    </p>
+
+                    <!-- STATUS + DATE -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-semibold">Your Status:</span>
+
+                            {% if job['response_status'] == 'applied' %}
+                                <span class="badge bg-primary">Applied</span>
+
+                            {% elif job['response_status'] == 'accepted' %}
+                                <span class="badge bg-success">Accepted</span>
+
+                            {% elif job['response_status'] == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+
+                            {% else %}
+                                <span class="badge bg-secondary">{{ job['response_status'] }}</span>
+                            {% endif %}
+
+                            <div class="text-muted mt-1">
+                                <small>Applied on {{ job['response_created_at'] }}</small>
+                            </div>
+                        </div>
+
+                        <!-- JOB STATUS BADGE -->
+                        <div>
+                            {% if job['job_status'] == 'active' %}
+                                <span class="badge bg-success">Job Active</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Job Closed</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <p class="text-muted">You have not applied to any jobs yet.</p>
+    {% endif %}
+
+    </div>
+{% endblock %}
+

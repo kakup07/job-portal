@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %}Manage Jobs{% endblock %}
+
+{% block nav_links %}
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/dashboard'>
+        <i class='bi bi-speedometer2 fs-4'></i>
+        <span class='label ms-3'>Dashboard</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/jobs'>
+        <i class='bi bi-briefcase fs-4'></i>
+        <span class='label ms-3'>Manage Jobs</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/employers'>
+        <i class='bi bi-people fs-4'></i>
+        <span class='label ms-3'>Manage Employers</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/jobseekers'>
+        <i class='bi bi-person-badge fs-4'></i>
+        <span class='label ms-3'>Manage Jobseekers</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Manage Jobs</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Employer</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job['title'] }}</td>
+                <td>{{ job['employer_name'] }}</td>
+
+                <td>
+                    {% if job['status'] == 'active' %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ job['created_at'] }}</td>
+
+                <td>
+                    <a href="/admin/jobs/{{ job['id'] }}/toggle"
+                       class="btn btn-sm btn-warning">{{'Activate' if job['status'] == 'inactive' else 'Deactivate'}}</a>
+
+                    <a href="/admin/jobs/{{ job['id'] }}/delete"
+                       class="btn btn-sm btn-danger"
+                       onclick="return confirm('Delete this job?')">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block title %}Available Jobs{% endblock %}
+
+{% block nav_links %}
+    <a class="nav-link text-white d-flex align-items-center" href="/job_seekers/applications">
+        <i class="bi bi-check2-square fs-4"></i>
+        <span class="label ms-3">My Applications</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Available Jobs</h2>
+
+    {% if jobs %}
+        <div class="list-group">
+            {% for job in jobs %}
+                <div class="list-group-item mb-2">
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">{{ job['title'] }}</h5>
+                            <br>
+                            <div class="mb-2">
+                                <span class="fw-semibold">Company:</span>
+                                <span class="text-primary">{{ job['company_name'] }}</span>
+                            </div>
+                            <small class="text-muted">
+                                Posted by {{ job['employer_name'] }} • {{ job['created_at'] }}
+                            </small>
+                        </div>
+
+                        <a href="/jobs/{{ job['id'] }}/apply" 
+                           class="btn btn-primary btn-sm">
+                            Apply
+                        </a>
+                    </div>
+
+                    <p class="mt-2 text-muted" style="max-width: 700px;">
+                        {{ job['description'] | truncate(150, True) }}
+                    </p>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">No jobs available at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

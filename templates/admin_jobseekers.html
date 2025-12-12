@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+
+{% block title %}Manage Jobseekers{% endblock %}
+
+{% block nav_links %}
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/dashboard'>
+        <i class='bi bi-speedometer2 fs-4'></i>
+        <span class='label ms-3'>Dashboard</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/jobs'>
+        <i class='bi bi-briefcase fs-4'></i>
+        <span class='label ms-3'>Manage Jobs</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/employers'>
+        <i class='bi bi-people fs-4'></i>
+        <span class='label ms-3'>Manage Employers</span>
+    </a>
+
+    <a class='nav-link text-white d-flex align-items-center' href='/admin/jobseekers'>
+        <i class='bi bi-person-badge fs-4'></i>
+        <span class='label ms-3'>Manage Jobseekers</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Manage Jobseekers</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for s in seekers %}
+            <tr>
+                <td>{{ s['name'] }}</td>
+                <td>{{ s['email'] }}</td>
+
+                <td>
+                    {% if s['account_status'] == 'active' %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ s['created_at'] }}</td>
+
+                <td>
+                    <a href="/admin/jobseekers/{{ s['id'] }}/toggle"
+                       class="btn btn-sm btn-warning">Toggle</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+{% block content %}
+  <form action='users/login' method='POST'>
+    <!-- Email -->
+    <input
+        type='email'
+        id='email'
+        name='email'
+        placeholder='email'
+        required
+    >
+    <!-- Password -->
+    <input
+        type='password'
+        id='password'
+        name='password'
+        placeholder='password'
+        required
+    >
+    <button type='submit'>Login</button>
+  </form>
+  <p>
+    Don't have an account?
+    <a href='/users/register'>Sign up</a>
+  </p>
+
+{% endblock %}
