@@ -37,7 +37,7 @@ Install dependencies:
 
 Initialize the database:
 
-  flask init_db
+  flask init-db
 
 Run the flask server:
 
@@ -61,4 +61,4 @@ You should create a .env file in the project root with:
 
 A file named .env.example may be provided to show required variables.
 
-admin user_name -> 'admin' password -> 'admin123'
+admin user_name -> 'admin@example.com' password -> 'admin123'
